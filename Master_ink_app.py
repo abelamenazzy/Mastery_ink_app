@@ -1,4 +1,4 @@
-https://masteryink-ni.vercel.app/https://masteryink-ni.vercel.app/https://masteryink-ni.vercel.app/import streamlit as st
+import streamlit as st
 import json
 import os
 
