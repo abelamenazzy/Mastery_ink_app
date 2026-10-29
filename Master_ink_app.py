@@ -98,6 +98,7 @@ menu_option = st.sidebar.radio(
         "📋 Checklist de Mesa Estéril",
         "🎴 Tarjetas de Repaso (Flashcards)",
         "📝 Cuestionario de Bioseguridad (Quiz)",
+        "📤 Entrega de Tareas & Feedback",
         "💰 Simulador de Presupuestos (S/)",
         "📁 Biblioteca de Recursos Studio"
     ]
@@ -208,6 +209,62 @@ elif menu_option == "📝 Cuestionario de Bioseguridad (Quiz)":
         st.success(f"Puntaje obtenido: {score}/2")
         if score == 2:
             st.balloons()
+
+
+# --- SECCIÓN NUEVA: ENTREGA DE TAREAS & FEEDBACK ---
+elif menu_option == "📤 Entrega de Tareas & Feedback":
+    st.header("📤 Portal de Entrega de Prácticas y Retroalimentación Técnica")
+    
+    tab_student, tab_mentor = st.tabs(["👨‍🎓 Envío de Práctica (Alumno)", "👑 Generador de Retroalimentación (Mentor)"])
+    
+    with tab_student:
+        st.subheader("📋 Formulario de Envío de Práctica")
+        col_a, col_b = st.columns(2)
+        with col_a:
+            alumno_nombre = st.text_input("Nombre del Alumno")
+            semana_num = st.selectbox("Semana / Módulo", ["Semana 1: Mesa Estéril", "Semana 2: Line Work", "Semana 3: Sombras Sumie", "Semana 4: Proyecto Final"])
+            soporte = st.selectbox("Soporte de Práctica", ["Piel Sintética 3mm", "Piel Sintética 1.5mm", "Fruta (Naranja/Toronja)", "Piel Real"])
+        with col_b:
+            voltaje = st.text_input("Voltaje Utilizado (V)", "7.5V")
+            cartucho = st.text_input("Cartucho / Aguja", "3RL 0.35mm Bugpin")
+            dilucion = st.text_input("Dilución de Tinta", "Negro Puro / Medium Wash")
+            
+        fotos = st.file_uploader("Subir Fotografías de Evidencia", accept_multiple_files=True)
+        if st.button("Enviar Práctica al Mentor"):
+            if alumno_nombre and fotos:
+                st.success("✅ ¡Práctica registrada correctamente! El mentor revisará tu entrega.")
+            else:
+                st.warning("Por favor completa tu nombre y sube al menos una fotografía.")
+
+    with tab_mentor:
+        st.subheader("🔍 Pauta de Evaluación y Generador de Mensajes (Mentor)")
+        st.markdown("**Criterios Técnicos:** 1. Firmeza y Continuidad, 2. Profundidad Dermis (1.5mm), 3. Transición Sumie, 4. Bioseguridad.")
+        
+        nombre_eval = st.text_input("Nombre del Alumno a Evaluar", "Carlos")
+        estado_eval = st.radio("Resultado de la Evaluación", ["Aprobado", "Requiere Ajustes/Reintento"])
+        obs_trazo = st.text_area("Observaciones Técnicas", "Excelente firmeza de mano y saturación constante. Mesa estéril armada en orden.")
+        
+        if estado_eval == "Aprobado":
+            msg_gen = f"""¡Hola, {nombre_eval}! 👋🎨
+
+He revisado tu práctica. ¡Excelente trabajo! 🚀
+
+📌 Observaciones del Mentor:
+• {obs_trazo}
+
+✅ Tu práctica ha sido APROBADA. Puedes continuar con las lecciones de la siguiente semana en tu Aula Virtual. ¡Sigue así!"""
+        else:
+            msg_gen = f"""¡Hola, {nombre_eval}! 👋🎨
+
+He evaluado tu ejercicio en piel sintética. Tienes una gran base, pero debemos ajustar un par de puntos técnicos:
+
+🔍 Puntos a corregir:
+• {obs_trazo}
+
+📌 Tarea de Ajuste: Aplica estas correcciones en una nueva plantilla y sube las fotos. ¡Estamos para pulir tu técnica al 100%! 💪"""
+        
+        st.text_area("Mensaje listo para copiar y enviar por WhatsApp:", value=msg_gen, height=180)
+
 
 # --- SECCIÓN 5: SIMULADOR ---
 elif menu_option == "💰 Simulador de Presupuestos (S/)":
